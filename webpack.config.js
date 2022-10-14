@@ -1,14 +1,20 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-
+const BundleAnalyzerPlugin =
+    require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 module.exports = {
     mode: "development",
     devtool: "inline-source-map",
     entry: "./src/index.js",
     output: {
-        filename: "[name].[contenthash].js",
+        filename: "dist.js",
         path: path.resolve(__dirname, "dist"),
+    },
+    resolve: {
+        alias: {
+            utils: path.resolve(__dirname, "src/utils"),
+        },
     },
     optimization: {
         minimize: true,
@@ -21,6 +27,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: "博客列表",
         }),
+        new BundleAnalyzerPlugin(),
     ],
     module: {
         rules: [{
